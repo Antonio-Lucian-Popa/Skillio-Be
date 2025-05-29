@@ -39,4 +39,15 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
     );
 
 
+    @Query("""
+    SELECT COUNT(a) > 0 FROM Appointment a
+    JOIN Service s ON a.serviceId = s.id
+    WHERE a.clientId = :clientId
+      AND s.providerId = :providerId
+      AND a.status = 'COMPLETED'
+""")
+    boolean hasCompletedAppointment(@Param("clientId") UUID clientId,
+                                    @Param("providerId") UUID providerId);
+
+
 }
