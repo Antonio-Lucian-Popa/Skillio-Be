@@ -12,6 +12,7 @@ import com.asusoftware.Skillio_Be.user.model.User;
 import com.asusoftware.Skillio_Be.user.model.dto.LoginDto;
 import com.asusoftware.Skillio_Be.user.model.dto.UserDto;
 import com.asusoftware.Skillio_Be.user.model.dto.UserRegisterDto;
+import com.asusoftware.Skillio_Be.user.model.dto.UserResponseDto;
 import com.asusoftware.Skillio_Be.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.representations.AccessTokenResponse;
@@ -39,7 +40,7 @@ public class UserService {
      * Creează user în Keycloak și îl salvează local.
      */
     @Transactional
-    public UserDto register(UserRegisterDto dto) {
+    public UserResponseDto register(UserRegisterDto dto) {
         String keycloakId = keycloakService.createKeycloakUser(dto);
 
         // 1. Salvăm userul local
@@ -72,7 +73,7 @@ public class UserService {
             subscriptionService.createTrialSubscription(user.getId());
         }
 
-        return mapper.map(user, UserDto.class);
+        return mapper.map(user, UserResponseDto.class);
     }
 
     /**
